@@ -1,9 +1,9 @@
 {
-  "name": "patternfly-seed",
-  "version": "0.0.2",
-  "description": "An open source build scaffolding utility for web apps.",
-  "repository": "https://github.com/patternfly/patternfly-react-seed.git",
-  "homepage": "https://patternfly-react-seed.surge.sh",
+  "name": "tamer-webapp",
+  "version": "1.0.1",
+  "description": "Tamer Front Application based on Patternfly.",
+  "repository": "https://github.com/kubernetesbigdataeg/tamer",
+  "homepage": "https://kubernetesbigdataeg.github.io",
   "license": "MIT",
   "private": true,
   "scripts": {
