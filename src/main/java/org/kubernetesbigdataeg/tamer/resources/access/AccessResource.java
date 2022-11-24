@@ -101,7 +101,6 @@ public class AccessResource {
     @Path("/info")
     @Operation(summary = "User information")
     @SecurityRequirement(name="SecurityScheme") // config auto-add-security-requirement
-    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses(
         value = {

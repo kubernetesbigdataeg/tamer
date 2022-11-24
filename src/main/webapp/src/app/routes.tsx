@@ -6,6 +6,7 @@ import { GeneralSettings } from '@app/Settings/General/GeneralSettings';
 import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
+import Cookies from 'js-cookie';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -25,42 +26,89 @@ export interface IAppRouteGroup {
 }
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
+let routes: AppRouteConfig[] = [];
 
-const routes: AppRouteConfig[] = [
-  {
-    component: Dashboard,
-    exact: true,
-    label: 'Dashboard',
-    path: '/',
-    title: 'PatternFly Seed | Main Dashboard',
-  },
-  {
-    component: Support,
-    exact: true,
-    label: 'Support',
-    path: '/support',
-    title: 'PatternFly Seed | Support Page',
-  },
-  {
-    label: 'Settings',
-    routes: [
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+}
+
+const generateRoutes = () => {
+  let role;
+  /*
+    TODO: Whe the cookie is removed manually, this function
+    is executed and raised one error. This function is
+    execute on each rendering of the routes.
+   */
+  try {
+    role = Cookies.getJSON('tamer-userinfo').groups[0];
+  } catch(err) {
+    console.log("Error reading tamer-userinfo cookie");
+    role = {"role":"user" };
+  }
+
+  let theroutes: AppRouteConfig;
+
+  if (role === "admin") {
+    theroutes = [
       {
-        component: GeneralSettings,
+        component: Dashboard,
         exact: true,
-        label: 'General',
-        path: '/settings/general',
-        title: 'PatternFly Seed | General Settings',
+        label: 'Dashboard',
+        path: '/',
+        title: 'Tamer | Main Dashboard',
       },
       {
-        component: ProfileSettings,
+        component: Support,
         exact: true,
-        label: 'Profile',
-        path: '/settings/profile',
-        title: 'PatternFly Seed | Profile Settings',
+        label: 'Support',
+        path: '/support',
+        title: 'Tamer | Support Page',
       },
-    ],
-  },
-];
+      {
+        label: 'Settings',
+        routes: [
+          {
+            component: GeneralSettings,
+            exact: true,
+            label: 'General',
+            path: '/settings/general',
+            title: 'Tamer | General Settings',
+          },
+          {
+            component: ProfileSettings,
+            exact: true,
+            label: 'Profile',
+            path: '/settings/profile',
+            title: 'Tamer | Profile Settings',
+          },
+        ],
+      },
+    ]
+  } else {
+    theroutes = [
+      {
+        component: Dashboard,
+        exact: true,
+        label: 'Dashboard',
+        path: '/',
+        title: 'Tamer | Main Dashboard',
+      },
+      {
+        component: Support,
+        exact: true,
+        label: 'Support',
+        path: '/support',
+        title: 'Tamer | Support Page',
+      },
+    ];
+  }
+  routes = theroutes;
+  return theroutes;
+}
 
 // a custom hook for sending focus to the primary content container
 // after a view has loaded so that subsequent press of tab key
@@ -97,18 +145,22 @@ const PageNotFound = ({ title }: { title: string }) => {
   return <Route component={NotFound} />;
 };
 
-const flattenedRoutes: IAppRoute[] = routes.reduce(
-  (flattened, route) => [...flattened, ...(route.routes ? route.routes : [route])],
-  [] as IAppRoute[]
-);
-
 const AppRoutes = (): React.ReactElement => (
   <Switch>
-    {flattenedRoutes.map(({ path, exact, component, title }, idx) => (
-      <RouteWithTitleUpdates path={path} exact={exact} component={component} key={idx} title={title} />
-    ))}
+    {
+      generateRoutes().reduce((flattened, route) => [...flattened, ...(route.routes ? route.routes : [route])],
+        [] as IAppRoute[]).map(({ path, exact, component, title, isAsync }, idx) => (
+        <RouteWithTitleUpdates
+          path={path}
+          exact={exact}
+          component={component}
+          key={idx}
+          title={title}
+        />
+      ))
+    }
     <PageNotFound title="404 Page Not Found" />
   </Switch>
 );
 
-export { AppRoutes, routes };
+export { AppRoutes, generateRoutes };
