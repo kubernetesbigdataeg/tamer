@@ -24,7 +24,7 @@ const App: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     let value = {};
-    value = Cookies.getJSON('jwt-example-cookie');
+    value = Cookies.getJSON('tamer-auth');
     if (value) {
       setIsLoged(true);
     }

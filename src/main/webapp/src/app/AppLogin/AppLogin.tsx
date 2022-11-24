@@ -51,23 +51,45 @@ class AppLogin extends React.Component {
 
       (async () => {
         const rawResponse =
-          await fetch('http://localhost:8000/auth/login', {
+          await fetch(window.location.protocol +
+            "//" + window.location.hostname +
+            ":8080" +
+            "/api/v1/access/login", {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              "email": this.state.usernameValue,
+              "username": this.state.usernameValue,
               "password": this.state.passwordValue
             })
           });
         const content = await rawResponse.json();
 
-        if (content.status !== 401) {
-          Cookies.set('jwt-example-cookie', content);
-          let json = this.parseJwt(Cookies.getJSON('jwt-example-cookie').access_token);
+        if (rawResponse.status == 200) {
+          Cookies.set('tamer-auth', content);
+          let json = this.parseJwt(Cookies.getJSON('tamer-auth').access_token);
+
+          const rawResponse2 =
+            await fetch(window.location.protocol +
+              "//" + window.location.hostname +
+              ":8080" +
+              "/api/v1/access/info", {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${content.token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            });
+
+          const group = await rawResponse2.json();
+          Cookies.set('tamer-userinfo', group)
+
           this.props.handleLogin(true, json);
+        } else {
+          console.log("LOGIN failed");
         }
       })();
     };
@@ -75,7 +97,7 @@ class AppLogin extends React.Component {
 
   public componentDidMount(): void {
     let value = {};
-    value = Cookies.getJSON('jwt-example-cookie');
+    value = Cookies.getJSON('tamer-auth');
     if (value) {
       this.setState({ alreadyLoged: true });
     } else {

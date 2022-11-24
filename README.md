@@ -1,64 +1,28 @@
-# tamer Project
+# Tamer Application
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This project uses Quarkus and Reactjs as core technologies.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Quarkus
 
-## Running the application in dev mode
+Quarkus rests on a vast ecosystem of technologies, standards, libraries, and APIs.
+Among the specifications and technologies underlying Quarkus are:
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/tamer-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- Kubernetes ([guide](https://quarkus.io/guides/kubernetes)): Generate Kubernetes resources from annotations
-- RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A JAX-RS implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+| Technology                | Description                                                                                                                                                                                                                                                                                                                                                                                                       |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Eclipse MicroProfile      | Quarkus integrates the entire set of specifications of Eclipse MicroProfile through SmallRye. Eclipse MicroProfile is specified under the Eclipse Foundation and is implemented by SmallRye                                                                                                                                                                                                                       |
+| SmallRye                  | The reference implementacion of Eclipse Microprofile specification                                                                                                                                                                                                                                                                                                                                                |
+| CDI                       | Context and Dependency Injection (CDI) is a central technology in Jakarta EE or in MicroProfile. Quarkus uses CDI extensively. However, it is not a full CDI implementation verified by the TCK (Eclipse MicroProfile Technology Compatibility Kits). CDI being runtime based and not compile time based, Quarkus decided to only implement the most useful CDI features that could be generated at compile time. |
+| JAX-RS                    | Central technology in Microprofile. Java API for RESTful Web Services (JAX-RS) is a specification that provides support for creating web services according to the Representational State Transfer (REST) architectural style. JAX-RS provides a set of annotations and classes/interfaces to simplify the development and deployment of REST endpoints.                                                          |
+| JSON-B                    | JSON Binding (JSON-B-JSR367 and JSON-B-Spec) is a standard binding layer for converting Java objects to/from JSON documents. It defines a default mapping algorithm for converting existing Java classes to JSON. JSON-B is used to customize the JSON output of RESTful web services.                                                                                                                            |
+| JSON-P                    | JSON-P-JSR374 and JSON-P-Spec JSON Processing (JSON-P), is a specification that allows JSON processing in Java. he processing includes mechanisms to parse, generate, transform, and query JSON data. At the same time, it provides a mechanism to produce and consume JSON by streaming in a manner similar to StAX (Streaming API for XML) for XML.                                                             |
+| Hibernate                 | Hibernate ORM is a library providing Object/Relational Mapping (ORM) support to applications, libraries, and frameworks. It also provides an implementation of the JPA specification, which is the standard Java specification for ORM.                                                                                                                                                                           |
+| JPA                       | Jakarta Persistence (JPA; formerly Java Persistence API) is a Jakarta EE application programming interface specification that describes the management of relational data in enterprise Java applications. The implementation of the JPA standard used in Quarkus is Hibernate.                                                                                                                                   |
+| Panache                   | Panache is a Quarkus-specific library that simplifies the development of the Hibernate-based persistence layer.                                                                                                                                                                                                                                                                                                   |
+| Agroal                    | It's an advanced datasource connection pool implementation with integration with transaction and security. It’s the choice of the Qarkus platform                                                                                                                                                                                                                                                                 |
+| RESTEasy classic/reactive | Quarkus is to unify both imperative (RESTEasy classic) and reactive (RESTEasy reactive) programming models seamlessly. Thanks to its reactive core based on Netty and Eclipse Vert.x, everything in Quarkus is non-blocking.                                                                                                                                                                                      |
+| Netty                     | Netty is an asynchronous event-driven framework. That means that every request is handled by an event loop (the IO thread) and then, depending on the destination, it can invoke the imperative code on a worker thread (e.g. servlet, Jax-RS) or the reactive code on an IO thread (reactive route).                                                                                                             |
+| Vert.x                    | Vert.x is a toolkit to build reactive applications. The Vert.x ecosystem is enormous. From HTTP and data access abilities to messaging clients via microservice and security facilities. Quarkus is based on Vert.x under the hood                                                                                                                                                                                |
+| SmallRye Mutiny | Mutiny is an event-driven reactive programming library. It’s not related to Vert.x. Mutiny is integrated in Quarkus where every reactive API uses Mutiny, and Eclipse Vert.x clients are made available using Mutiny bindings                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ## Push image to registry
 
