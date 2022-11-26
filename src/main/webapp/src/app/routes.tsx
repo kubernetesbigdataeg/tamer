@@ -25,6 +25,9 @@ import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import Cookies from 'js-cookie';
+import {Storage} from "@app/Storage/Storage";
+import {Catalog} from "@app/Catalog/Catalog";
+import {Services} from "@app/Services/Services";
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -45,14 +48,6 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 let routes: AppRouteConfig[] = [];
-
-const parseJwt = (token) => {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-}
 
 const generateRoutes = () => {
   let role;
@@ -77,14 +72,28 @@ const generateRoutes = () => {
         exact: true,
         label: 'Dashboard',
         path: '/',
-        title: 'Tamer | Main Dashboard',
+        title: 'Tamer | Main Services',
       },
       {
-        component: Support,
+        component: Storage,
         exact: true,
-        label: 'Support',
-        path: '/support',
-        title: 'Tamer | Support Page',
+        label: 'Storage',
+        path: '/storage',
+        title: 'Tamer | Services Page',
+      },
+      {
+        component: Catalog,
+        exact: true,
+        label: 'Catalog',
+        path: '/catalog',
+        title: 'Tamer | Catalog Page',
+      },
+      {
+        component: Services,
+        exact: true,
+        label: 'Services',
+        path: '/services',
+        title: 'Tamer | Services Page',
       },
       {
         label: 'Settings',
@@ -113,14 +122,7 @@ const generateRoutes = () => {
         exact: true,
         label: 'Dashboard',
         path: '/',
-        title: 'Tamer | Main Dashboard',
-      },
-      {
-        component: Support,
-        exact: true,
-        label: 'Support',
-        path: '/support',
-        title: 'Tamer | Support Page',
+        title: 'Tamer | Main Services',
       },
     ];
   }

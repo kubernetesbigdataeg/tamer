@@ -40,11 +40,12 @@ import {
   ButtonVariant
 } from '@patternfly/react-core';
 import { generateRoutes, IAppRoute, IAppRouteGroup } from '@app/routes';
-import logo from '@app/bgimages/Patternfly-Logo.svg';
+import logo from '@app/bgimages/tamer-header-logo.svg';
 import imgAvatar from '@app/bgimages/imgAvatar.svg';
 import CogIcon from '@patternfly/react-icons/dist/esm/icons/cog-icon';
 import HelpIcon from '@patternfly/react-icons/dist/esm/icons/help-icon';
 import Cookies from "js-cookie";
+import {BellIcon} from "@patternfly/react-icons";
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -73,6 +74,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     value = Cookies.getJSON('tamer-userinfo');
     if (value) {
       setIsLoged(true);
+      // @ts-ignore
       setIsUser(value.username);
     }
   }, []);
@@ -109,7 +111,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       history.push('/');
     }
     return (
-      <img src={logo} onClick={handleClick} alt="PatternFly Logo" />
+      <img src={logo} onClick={handleClick} alt="Tamer Logo" />
     );
   }
 
@@ -151,6 +153,9 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         }} /** the settings and help icon buttons are only visible on desktop sizes and replaced by a kebab dropdown for other sizes */
       >
         <PageHeaderToolsItem>
+          <Button aria-label="Nofication actions" variant={ButtonVariant.plain}>
+            <BellIcon />
+          </Button>
           <Button aria-label="Settings actions" variant={ButtonVariant.plain}>
             <CogIcon />
           </Button>

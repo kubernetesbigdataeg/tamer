@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {Grid, GridItem, PageSection, Title} from '@patternfly/react-core';
 
-const Dashboard: React.FunctionComponent = () => (
+const Catalog: React.FunctionComponent = () => (
   <PageSection>
-    <Title headingLevel="h1" size="lg">Cluster Status</Title>
+    <Title headingLevel="h1" size="lg">Catalog Status</Title>
     <Grid hasGutter>
       <GridItem span={8}>span = 8</GridItem>
       <GridItem span={4} rowSpan={2}>
@@ -25,4 +25,4 @@ const Dashboard: React.FunctionComponent = () => (
   </PageSection>
 )
 
-export { Dashboard };
+export { Catalog };
