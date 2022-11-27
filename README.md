@@ -2,6 +2,10 @@
 
 This project uses Quarkus and Reactjs as core technologies.
 
+<p align="center">
+<img  width="80%" src="images/tamer-screenshot.png">
+</p>
+
 ## Quarkus
 
 Quarkus rests on a vast ecosystem of technologies, standards, libraries, and APIs.
