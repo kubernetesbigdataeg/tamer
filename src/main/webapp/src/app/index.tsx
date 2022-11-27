@@ -10,14 +10,6 @@ import Cookies from 'js-cookie';
 const App: React.FunctionComponent = () => {
   const [isLoged, setIsLoged] = React.useState(false);
 
-  const parseJwt = (token) => {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      return null;
-    }
-  };
-
   const onHandleLogin = (value) => {
     setIsLoged(value);
   }
