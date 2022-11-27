@@ -61,14 +61,6 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const [isLoged, setIsLoged] = React.useState(false);
   const history = useHistory();
 
-  const parseJwt = (token) => {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      return null;
-    }
-  };
-
   React.useEffect(() => {
     let value = {};
     value = Cookies.getJSON('tamer-userinfo');
@@ -120,6 +112,8 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       Cookies.remove('tamer-auth');
       // Reload page for activating login logic
       window.location.reload();
+      // avoid other user landing in a non-exits location
+      history.push("/");
     };
     return { logout };
   }
