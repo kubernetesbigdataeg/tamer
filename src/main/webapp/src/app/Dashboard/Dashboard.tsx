@@ -18,15 +18,30 @@
  */
 import * as React from 'react';
 import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  DescriptionList,
+  DescriptionListDescription,
+  DescriptionListGroup,
+  DescriptionListTerm,
   EmptyState,
   EmptyStateVariant,
+  Flex,
+  FlexItem,
   Grid,
   GridItem,
-  PageSection,
-  Spinner,
-  Title} from '@patternfly/react-core';
+  PageSection, PageSectionVariants,
+  Spinner, Text, TextContent, TextVariants,
+  Title, Toolbar, ToolbarContent
+} from '@patternfly/react-core';
 import Cookies from 'js-cookie';
 import {AppLogin} from "@app/AppLogin/AppLogin";
+import {PlusCircleIcon} from "@patternfly/react-icons";
+import { ChartDonutThreshold, ChartDonutUtilization } from '@patternfly/react-charts';
+import "./main.css";
 
 const Dashboard: React.FunctionComponent = () => {
   const [isLoged, setIsLoged] = React.useState(false);
@@ -56,34 +71,296 @@ const Dashboard: React.FunctionComponent = () => {
    : ! isLoged?
       <AppLogin handleLogin={onHandleLogin}/>
    :
+     <>
+       <PageSection variant={PageSectionVariants.light}>
+         <TextContent>
+           <Text component={TextVariants.h1}>Cluster Dashboard</Text>
+         </TextContent>
+      </PageSection>
       <PageSection>
-        <Title headingLevel="h1" size="lg">Services Status</Title>
-        <div className="pf-c-backdrop pf-l-bullseye">
-          <div className="pf-c-modal-box">
-            <div className="pf-c-modal-box__body">
-              This is a PatternFly Modal
-            </div>
-          </div>
-        </div>
         <Grid hasGutter>
-          <GridItem span={8}>span = 8</GridItem>
-          <GridItem span={4} rowSpan={2}>
-            span = 4, rowSpan = 2
+          <GridItem span={10} rowSpan={2}>
+            <Card>
+              <CardTitle className="panel-title">Cluster Health</CardTitle>
+              <CardBody>
+                <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Kubernetes API</CardTitle>
+                      <CardBody className="panel-health-font">UP</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Object Store</CardTitle>
+                      <CardBody className="panel-health-font">UP</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Backend</CardTitle>
+                      <CardBody className="panel-health-font" style={{color: "red"}}>ERR</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Masters</CardTitle>
+                      <CardBody className="panel-health-font" style={{color: "orange"}}>2/3</CardBody>
+                    </Card>
+                  </FlexItem>
+                    <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Workers</CardTitle>
+                      <CardBody className="panel-health-font">4/4</CardBody>
+                    </Card>
+                  </FlexItem>
+                </Flex>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem span={2} rowSpan={4}>
+            <Card>
+              <CardTitle className="panel-title">Components Info</CardTitle>
+              <CardBody>
+                <DescriptionList>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Kubernetes Version</DescriptionListTerm>
+                    <DescriptionListDescription>1.25.4</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Container Runtime CRI</DescriptionListTerm>
+                    <DescriptionListDescription>CRI-O 1.23.4</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Contanier Network CNI</DescriptionListTerm>
+                    <DescriptionListDescription>Flannel 0.20.1</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Operating System</DescriptionListTerm>
+                    <DescriptionListDescription>Centos 8</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Tamer Version</DescriptionListTerm>
+                    <DescriptionListDescription>
+                      <Button variant="link" isInline icon={<PlusCircleIcon />}>
+                        Tamer 1.0.0-SNAPSHOT
+                      </Button>
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Quarkus Version</DescriptionListTerm>
+                    <DescriptionListDescription>11111</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>PatternFly Version</DescriptionListTerm>
+                    <DescriptionListDescription>2015.11.1</DescriptionListDescription>
+                  </DescriptionListGroup>
+                </DescriptionList>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem span={10} rowSpan={2}>
+            <Card>
+              <CardTitle className="panel-title">Cluster Utilization</CardTitle>
+              <CardBody>
+                <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+                  <FlexItem>
+                    <Card id="utilization-card-4-card" component="div">
+                      <CardTitle>
+                        <Title headingLevel="h4" size="lg">
+                          CPU Usage
+                        </Title>
+                      </CardTitle>
+                      <CardBody>
+                        <ChartDonutThreshold
+                          ariaDesc="Mock storage capacity"
+                          ariaTitle="Mock donut utilization chart"
+                          constrainToVisibleArea={true}
+                          data={[
+                            { x: 'Warning at 60%', y: 60 },
+                            { x: 'Danger at 90%', y: 90 }
+                          ]}
+                          height={200}
+                          labels={({ datum }) => (datum.x ? datum.x : null)}
+                          padding={{
+                            bottom: 0,
+                            left: 10,
+                            right: 150,
+                            top: 0
+                          }}
+                          width={350}
+                        >
+                          <ChartDonutUtilization
+                            data={{ x: 'Storage capacity', y: 80 }}
+                            labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
+                            legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
+                            legendOrientation="vertical"
+                            title="80%"
+                            subTitle="of 100 GBps"
+                            thresholds={[{ value: 60 }, { value: 90 }]}
+                          />
+                        </ChartDonutThreshold>{' '}
+                      </CardBody>
+                      <CardFooter>
+                        <a href="#">See details</a>
+                      </CardFooter>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem>
+                    <Card id="utilization-card-4-card" component="div">
+                      <CardTitle>
+                        <Title headingLevel="h4" size="lg">
+                          Memory Usage
+                        </Title>
+                      </CardTitle>
+                      <CardBody>
+                        <ChartDonutThreshold
+                          ariaDesc="Mock storage capacity"
+                          ariaTitle="Mock donut utilization chart"
+                          constrainToVisibleArea={true}
+                          data={[
+                            { x: 'Warning at 60%', y: 60 },
+                            { x: 'Danger at 90%', y: 90 }
+                          ]}
+                          height={200}
+                          labels={({ datum }) => (datum.x ? datum.x : null)}
+                          padding={{
+                            bottom: 0,
+                            left: 10,
+                            right: 150,
+                            top: 0
+                          }}
+                          width={350}
+                        >
+                          <ChartDonutUtilization
+                            data={{ x: 'Storage capacity', y: 80 }}
+                            labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
+                            legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
+                            legendOrientation="vertical"
+                            title="80%"
+                            subTitle="of 100 GBps"
+                            thresholds={[{ value: 60 }, { value: 90 }]}
+                          />
+                        </ChartDonutThreshold>{' '}
+                      </CardBody>
+                      <CardFooter>
+                        <a href="#">See details</a>
+                      </CardFooter>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem>
+                    <Card id="utilization-card-4-card" component="div">
+                      <CardTitle>
+                        <Title headingLevel="h4" size="lg">
+                          Storage Usage
+                        </Title>
+                      </CardTitle>
+                      <CardBody>
+                        <ChartDonutThreshold
+                          ariaDesc="Mock storage capacity"
+                          ariaTitle="Mock donut utilization chart"
+                          constrainToVisibleArea={true}
+                          data={[
+                            { x: 'Warning at 60%', y: 60 },
+                            { x: 'Danger at 90%', y: 90 }
+                          ]}
+                          height={200}
+                          labels={({ datum }) => (datum.x ? datum.x : null)}
+                          padding={{
+                            bottom: 0,
+                            left: 10,
+                            right: 150,
+                            top: 0
+                          }}
+                          width={350}
+                        >
+                          <ChartDonutUtilization
+                            data={{ x: 'Storage capacity', y: 40 }}
+                            labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
+                            legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
+                            legendOrientation="vertical"
+                            title="40%"
+                            subTitle="of 100 GBps"
+                            thresholds={[{ value: 60 }, { value: 90 }]}
+                          />
+                        </ChartDonutThreshold>{' '}
+                      </CardBody>
+                      <CardFooter>
+                        <a href="#">See details</a>
+                      </CardFooter>
+                    </Card>
+                  </FlexItem>
+                </Flex>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem span={10} rowSpan={1}>
+            <Card>
+              <CardTitle className="panel-title">Tamer services</CardTitle>
+              <CardBody>
+                <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Kubernetes API</CardTitle>
+                      <CardBody className="panel-health-font">UP</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Object Store</CardTitle>
+                      <CardBody className="panel-health-font">UP</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Backend</CardTitle>
+                      <CardBody className="panel-health-font" style={{color: "red"}}>ERR</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Masters</CardTitle>
+                      <CardBody className="panel-health-font" style={{color: "orange"}}>2/3</CardBody>
+                    </Card>
+                  </FlexItem>
+                  <FlexItem style={{width: "18%"}}>
+                    <Card>
+                      <CardTitle>Workers</CardTitle>
+                      <CardBody className="panel-health-font">4/4</CardBody>
+                    </Card>
+                  </FlexItem>
+                </Flex>
+              </CardBody>
+            </Card>
           </GridItem>
           <GridItem span={2} rowSpan={3}>
-            span = 2, rowSpan = 3
+            <Card>
+              <CardTitle className="panel-title">Cluster Features</CardTitle>
+              <CardBody>
+                <DescriptionList>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Kubernetes Version</DescriptionListTerm>
+                    <DescriptionListDescription>1.25.4</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Container Runtime CRI</DescriptionListTerm>
+                    <DescriptionListDescription>CRI-O 1.23.4</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Contanier Network CNI</DescriptionListTerm>
+                    <DescriptionListDescription>Flannel 0.20.1</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>Operating System</DescriptionListTerm>
+                    <DescriptionListDescription>Centos 8</DescriptionListDescription>
+                  </DescriptionListGroup>
+                </DescriptionList>
+              </CardBody>
+            </Card>
           </GridItem>
-          <GridItem span={2}>span = 2</GridItem>
-          <GridItem span={4}>span = 4</GridItem>
-          <GridItem span={2}>span = 2</GridItem>
-          <GridItem span={2}>span = 2</GridItem>
-          <GridItem span={2}>span = 2</GridItem>
-          <GridItem span={4}>span = 4</GridItem>
-          <GridItem span={2}>span = 2</GridItem>
-          <GridItem span={4}>span = 4</GridItem>
-          <GridItem span={4}>span = 4</GridItem>
         </Grid>
       </PageSection>
+    </>
   )
 }
 
