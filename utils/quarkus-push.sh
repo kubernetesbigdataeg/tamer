@@ -13,3 +13,4 @@ KUBECONFIG=/home/javiroman/.kube/vagrant ./mvnw install \
 
 # Manual deploy
 k apply -f target/kubernetes/kubernetes.yml
+
