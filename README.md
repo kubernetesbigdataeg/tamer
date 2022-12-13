@@ -27,7 +27,26 @@ Among the specifications and technologies underlying Quarkus are:
 | Netty                     | Netty is an asynchronous event-driven framework. That means that every request is handled by an event loop (the IO thread) and then, depending on the destination, it can invoke the imperative code on a worker thread (e.g. servlet, Jax-RS) or the reactive code on an IO thread (reactive route).                                                                                                             |
 | Vert.x                    | Vert.x is a toolkit to build reactive applications. The Vert.x ecosystem is enormous. From HTTP and data access abilities to messaging clients via microservice and security facilities. Quarkus is based on Vert.x under the hood                                                                                                                                                                                |
 | SmallRye Mutiny | Mutiny is an event-driven reactive programming library. It’s not related to Vert.x. Mutiny is integrated in Quarkus where every reactive API uses Mutiny, and Eclipse Vert.x clients are made available using Mutiny bindings                                                                                                                                                                                                                                                                                                                                                                                                                 |
+## Push image to registry
+
+Tamer UI local development steps:
+
+Start the development backend:
+
+```
+cd utils
+podman-compose -f tamer-compose.yml up
+```
+
+Start the development frontend:
+
+```
+cd src/main/webapp/
+npm install
+npm run start:dev
+```
 
 ## Push image to registry
 
-sh utils/push.sh
+Manual Docker Hub push: manual-push.sh
+Quarkus automatic push and k8s deployment: sh utils/push.sh

@@ -22,6 +22,13 @@ services:
       MOCK_TIME: 15
       JAVA_ENABLE_DEBUG: "true"
       POSTGRESQL_URL: "db"
+      QUARKUS_HTTP_CORS: "true"
+      QUARKUS_HTTP_CORS_ORIGINS: "http://localhost, http://localhost:9000"
+      QUARKUS_HTTP_CORS_METHODS: "GET,PUT,POST"
+      QUARKUS_HTTP_CORS_HEADERS: "accept,authorization,content-type,x-requested-with,x-foobar"
+      QUARKUS_HTTP_CORS_EXPOSED_HEADERS: "Content-Disposition"
+      QUARKUS_HTTP_CORS_ACCESS_CONTROL_MAX_AGE: "24H"
+      QUARKUS_HTTP_CORS_ACCESS_CONTROL_ALLOW_CREDENTIALS: "true"
     ports:
       - 8080:8080
     depends_on:
