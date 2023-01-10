@@ -25,9 +25,10 @@ module.exports = merge(common('development'), {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        // test: /\.css$/,
+        test: /\.(c|sc|sa)ss$/,
         include: [...stylePaths],
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
