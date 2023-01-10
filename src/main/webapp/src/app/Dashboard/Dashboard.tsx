@@ -41,7 +41,7 @@ import Cookies from 'js-cookie';
 import {AppLogin} from "@app/AppLogin/AppLogin";
 import {PlusCircleIcon} from "@patternfly/react-icons";
 import { ChartDonutThreshold, ChartDonutUtilization } from '@patternfly/react-charts';
-import "./main.css";
+import "./main.scss";
 
 const Dashboard: React.FunctionComponent = () => {
   const [isLoged, setIsLoged] = React.useState(false);
@@ -79,11 +79,11 @@ const Dashboard: React.FunctionComponent = () => {
       </PageSection>
       <PageSection>
         <Grid hasGutter>
-          <GridItem span={10} rowSpan={2}>
+          <GridItem span={10}>
             <Card>
-              <CardTitle className="panel-title">Cluster Health</CardTitle>
+              <CardTitle className="bg_title">Cluster Health</CardTitle>
               <CardBody>
-                <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+                <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }} flex={{ default: 'flex_1' }}>
                   <FlexItem style={{width: "18%"}}>
                     <Card>
                       <CardTitle>Kubernetes API</CardTitle>
@@ -118,9 +118,13 @@ const Dashboard: React.FunctionComponent = () => {
               </CardBody>
             </Card>
           </GridItem>
-          <GridItem span={2} rowSpan={4}>
+
+
+          <GridItem span={2} rowSpan={2}  >
+          {/* <GridItem span={4} rowSpan={2} mdRowSpan={4} lgRowSpan={4}> */}
+          <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfFlexEnd' }} >
             <Card>
-              <CardTitle className="panel-title">Components Info</CardTitle>
+              <CardTitle className="bg_title">Components Info</CardTitle>
               <CardBody>
                 <DescriptionList>
                   <DescriptionListGroup>
@@ -156,12 +160,17 @@ const Dashboard: React.FunctionComponent = () => {
                     <DescriptionListDescription>2015.11.1</DescriptionListDescription>
                   </DescriptionListGroup>
                 </DescriptionList>
+                <DescriptionList className="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est itaque eveniet illo rem id et, voluptatibus quas quisquam illum vitae, facere nobis perspiciatis architecto officiis. Officia fugit magnam nam mollitia.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, quidem. Dolores, repudiandae. Quod reiciendis voluptate ab repellendus quae reprehenderit ipsum consequuntur error qui, impedit placeat et deleniti explicabo maiores quia?Lorem ipsum dolor sit amet consectetur adipisicing elit.</DescriptionList>
               </CardBody>
             </Card>
+            </Flex>
           </GridItem>
-          <GridItem span={10} rowSpan={2}>
+
+
+
+          <GridItem span={10}>
             <Card>
-              <CardTitle className="panel-title">Cluster Utilization</CardTitle>
+              <CardTitle className="bg_title">Cluster Utilization</CardTitle>
               <CardBody>
                 <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
                   <FlexItem>
@@ -191,6 +200,14 @@ const Dashboard: React.FunctionComponent = () => {
                           width={350}
                         >
                           <ChartDonutUtilization
+                            animate={{
+                              onExit: {
+                                duration: 800,
+                                before: () => ({
+                                  _y: 0
+                                })
+                              }
+                            }}
                             data={{ x: 'Storage capacity', y: 80 }}
                             labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
                             legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
@@ -233,6 +250,14 @@ const Dashboard: React.FunctionComponent = () => {
                           width={350}
                         >
                           <ChartDonutUtilization
+                            animate={{
+                              onExit: {
+                                duration: 800,
+                                before: () => ({
+                                  _y: 0
+                                })
+                              }
+                            }}
                             data={{ x: 'Storage capacity', y: 80 }}
                             labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
                             legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
@@ -275,6 +300,14 @@ const Dashboard: React.FunctionComponent = () => {
                           width={350}
                         >
                           <ChartDonutUtilization
+                            animate={{
+                              onExit: {
+                                duration: 800,
+                                before: () => ({
+                                  _y: 0
+                                })
+                              }
+                            }}
                             data={{ x: 'Storage capacity', y: 40 }}
                             labels={({ datum }) => (datum.x ? `${datum.x}: ${datum.y}%` : null)}
                             legendData={[{ name: `Capacity: 80%` }, { name: 'Warning at 60%' }, { name: 'Danger at 90%' }]}
@@ -294,9 +327,15 @@ const Dashboard: React.FunctionComponent = () => {
               </CardBody>
             </Card>
           </GridItem>
-          <GridItem span={10} rowSpan={1}>
+
+          
+
+          
+
+
+          <GridItem span={10} rowSpan={2}>
             <Card>
-              <CardTitle className="panel-title">Tamer services</CardTitle>
+              <CardTitle className="bg_title">Tamer services</CardTitle>
               <CardBody>
                 <Flex className="example-border" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
                   <FlexItem style={{width: "18%"}}>
@@ -330,14 +369,19 @@ const Dashboard: React.FunctionComponent = () => {
                     </Card>
                   </FlexItem>
                 </Flex>
+                <DescriptionList className="lorem"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est itaque eveniet illo rem id et, voluptatibus quas quisquam illum vitae, facere nobis perspiciatis architecto officiis. Officia fugit magnam nam mollitia.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, quidem. Dolores, repudiandae. Quod reiciendis voluptate ab repellendus quae reprehenderit ipsum consequuntur error qui, impedit placeat et deleniti explicabo maiores quia?Lorem ipsum dolor sit amet consectetur adipisicing elit.<br></br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, impedit quidem. Dolore et, nihil beatae, fugiat quae a mollitia illum reiciendis repellendus accusamus voluptas rem adipisci cumque nemo facilis! Vitae?</p></DescriptionList>
+                {/* <Text className="lorem">que nostrum consequatur impedit hic?<br></br>lorem<br></br><br></br></Text> */}
               </CardBody>
             </Card>
+            
           </GridItem>
-          <GridItem span={2} rowSpan={3}>
+
+
+          <GridItem span={2} rowSpan={2} >
             <Card>
-              <CardTitle className="panel-title">Cluster Features</CardTitle>
+              <CardTitle className="bg_title">Cluster Features</CardTitle>
               <CardBody>
-                <DescriptionList>
+                <DescriptionList id="margin">
                   <DescriptionListGroup>
                     <DescriptionListTerm>Kubernetes Version</DescriptionListTerm>
                     <DescriptionListDescription>1.25.4</DescriptionListDescription>
@@ -355,6 +399,7 @@ const Dashboard: React.FunctionComponent = () => {
                     <DescriptionListDescription>Centos 8</DescriptionListDescription>
                   </DescriptionListGroup>
                 </DescriptionList>
+                {/* <Text className="lorem"></Text> */}
               </CardBody>
             </Card>
           </GridItem>
